@@ -52,3 +52,30 @@ plt.show()
 
 # Mostra os dados em tabela também
 display(df)
+
+# COMMAND ----------
+
+import pandas as pd
+
+# Executa a query do Spark e converte para pandas DataFrame
+df = spark.sql("""
+    SELECT NOME,
+           count(*) as qtd_habilidade
+    FROM `workspace`.`treinamento-compass`.`pokemon_completo`
+    GROUP BY NOME, HABILIDADE
+    ORDER BY qtd_habilidade DESC 
+    LIMIT 10
+""").toPandas()
+
+# Exibe o DataFrame com formatação
+print("Top 10 Pokémon com Mais Habilidades:")
+print("=" * 50)
+
+# Formata o DataFrame para melhor visualização
+df_display = df.copy()
+df_display['qtd_habilidade'] = df_display['qtd_habilidade'].astype(int)
+
+# Exibe o DataFrame
+display(df_display)
+
+
