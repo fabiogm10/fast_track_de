@@ -11,4 +11,44 @@ sys.path.append("/Workspace/Users/fabiogm10@gmail.com/Pipeline-Treinamento-Compa
 
 # COMMAND ----------
 
-display(spark.sql("SELECT * FROM workspace.`treinamento-compass`.pokemon_ids_names "))
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Executa a query e converte para Pandas DataFrame
+df = spark.sql("""
+    SELECT HABILIDADE,
+           count(*) as qtd_habilidade
+    FROM `workspace`.`treinamento-compass`.`pokemon_completo`
+    GROUP BY HABILIDADE
+    ORDER BY qtd_habilidade DESC 
+    LIMIT 10
+""").toPandas()
+
+# Configura o estilo do gráfico
+plt.style.use('default')
+plt.figure(figsize=(12, 8))
+
+# Cria o gráfico de barras
+bars = plt.bar(df['HABILIDADE'], df['qtd_habilidade'], 
+               color=['#FF6B6B', '#4ECDC4', '#45B7D1', '#F9A602', '#9B59B6', 
+                      '#E74C3C', '#3498DB', '#2ECC71', '#F39C12', '#9B59B6'])
+
+# Adiciona valores nas barras
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2., height + 0.1,
+             f'{int(height)}', ha='center', va='bottom', fontweight='bold')
+
+# Configurações do gráfico
+plt.title('Top 10 Habilidades Mais Comuns em Pokémon', fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Habilidades', fontsize=12, fontweight='bold')
+plt.ylabel('Quantidade de Pokémon', fontsize=12, fontweight='bold')
+plt.xticks(rotation=45, ha='right')
+plt.grid(axis='y', alpha=0.3)
+
+# Ajusta layout e mostra o gráfico
+plt.tight_layout()
+plt.show()
+
+# Mostra os dados em tabela também
+display(df)
