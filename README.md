@@ -1,6 +1,8 @@
 # Treinamento Compass
 Engenharia FastTrack
 
+O desenvolvimento foi executado em ambiente DataBricks , sendo necessario roda-lo em formato Pipeline de dados.
+
 A API escolhida para o treinamento foi a API com dados de POKEMONS.
 
 # APIs utilizadas: 

@@ -79,3 +79,54 @@ df_display['qtd_habilidade'] = df_display['qtd_habilidade'].astype(int)
 display(df_display)
 
 
+
+# COMMAND ----------
+
+import pandas as pd
+
+# Executa a query do Spark e converte para pandas DataFrame
+df = spark.sql("""
+    select GERACAO,
+       count(*) as qtd_por_geracao
+from `workspace`.`treinamento-compass`.`pokemon_completo`
+group by GERACAO
+order by qtd_por_geracao desc limit 10;
+""").toPandas()
+
+
+# Exibe o DataFrame
+display(df)
+
+# COMMAND ----------
+
+import pandas as pd
+
+# Executa a query do Spark e converte para pandas DataFrame
+df = spark.sql("""
+   select FORMA,
+       count(*) as qtd_por_forma
+from `workspace`.`treinamento-compass`.`pokemon_completo`
+group by FORMA
+order by qtd_por_forma desc limit 10;
+""").toPandas()
+
+
+# Exibe o DataFrame
+display(df)
+
+# COMMAND ----------
+
+import pandas as pd
+
+# Executa a query do Spark e converte para pandas DataFrame
+df = spark.sql("""
+select classe_dano_movimento,
+       count(*) as qtd_por_classe_mov
+from `workspace`.`treinamento-compass`.`pokemon_completo`
+group by classe_dano_movimento
+order by qtd_por_classe_mov desc ;
+""").toPandas()
+
+
+# Exibe o DataFrame
+display(df)
