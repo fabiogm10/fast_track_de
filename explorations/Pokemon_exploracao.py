@@ -128,5 +128,5 @@ order by qtd_por_classe_mov desc ;
 """).toPandas()
 
 
-# Exibe o DataFrame
+#  Exibe o DataFrame
 display(df)
